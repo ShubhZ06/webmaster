@@ -23,30 +23,26 @@ function useCountUp(to: number, decimals: number, duration: number, active: bool
 const STATS = [
   {
     value: 1.1, decimals: 1, suffix: '°C', prefix: '+',
-    label: 'GLOBAL TEMP RISE',
-    sub: 'Since pre-industrial era',
-    accent: '#FF2D2D',
+    label: 'GLOBAL TEMP RISE', sub: 'Since pre-industrial era',
+    accent: '#E63946', accentLight: '#FDECEA',
     desc: 'Every fraction of a degree matters',
   },
   {
     value: 421, decimals: 0, suffix: ' PPM', prefix: '',
-    label: 'CO₂ CONCENTRATION',
-    sub: 'Highest in 3 million years',
-    accent: '#FF6B00',
+    label: 'CO₂ CONCENTRATION', sub: 'Highest in 3 million years',
+    accent: '#1B4965', accentLight: '#E9F4FA',
     desc: 'Pre-industrial level was 280 ppm',
   },
   {
     value: 3.4, decimals: 1, suffix: 'mm', prefix: '',
-    label: 'SEA LEVEL RISE/YR',
-    sub: 'Accelerating every decade',
-    accent: '#00FFEE',
+    label: 'SEA LEVEL RISE/YR', sub: 'Accelerating every decade',
+    accent: '#40916C', accentLight: '#EBF9F3',
     desc: 'Threatening 600M coastal people',
   },
   {
     value: 1, decimals: 0, suffix: 'M+', prefix: '',
-    label: 'SPECIES AT RISK',
-    sub: 'Per IPCC 6th Assessment',
-    accent: '#BEFF00',
+    label: 'SPECIES AT RISK', sub: 'Per IPCC 6th Assessment',
+    accent: '#774936', accentLight: '#F7EDE9',
     desc: 'One million now face extinction',
   },
 ];
@@ -62,33 +58,34 @@ function StatCard({ stat, index }: { stat: typeof STATS[0]; index: number }) {
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: index * 0.12, duration: 0.5 }}
-      className="relative overflow-hidden group cursor-default nb-border"
-      style={{ borderColor: stat.accent, boxShadow: `0 0 0 0px ${stat.accent}`, transition: 'box-shadow 0.2s' }}
-      onMouseEnter={e => (e.currentTarget.style.boxShadow = `6px 6px 0px ${stat.accent}`)}
-      onMouseLeave={e => (e.currentTarget.style.boxShadow = `0 0 0 0px ${stat.accent}`)}
+      className="relative overflow-hidden group cursor-default nb-border bg-nb-surface transition-all duration-200"
+      style={{
+        borderColor: stat.accent,
+        boxShadow: `4px 4px 0 ${stat.accent}`,
+      }}
+      onMouseEnter={e => (e.currentTarget.style.transform = 'translate(-3px,-3px)')}
+      onMouseLeave={e => (e.currentTarget.style.transform = 'translate(0,0)')}
     >
-      {/* Background tint */}
-      <div
-        className="absolute inset-0 opacity-[0.05] transition-opacity duration-300 group-hover:opacity-[0.12]"
-        style={{ backgroundColor: stat.accent }}
-      />
+      {/* Bg tint */}
+      <div className="absolute inset-0 opacity-40" style={{ backgroundColor: stat.accentLight }} />
 
       <div className="relative p-6 md:p-8">
-        {/* Label */}
-        <p className="font-mono text-[10px] tracking-widest text-nb-white/40 mb-4">{stat.label}</p>
+        <p className="font-mono text-[10px] tracking-widest mb-4" style={{ color: stat.accent }}>{stat.label}</p>
 
-        {/* Big Number */}
         <div className="font-display leading-none mb-3" style={{ color: stat.accent }}>
           <span className="text-3xl">{stat.prefix}</span>
           <span className="text-6xl md:text-7xl counting">{val.toFixed(stat.decimals)}</span>
           <span className="text-3xl">{stat.suffix}</span>
         </div>
 
-        {/* Divider */}
-        <div className="h-[2px] w-12 mb-3 transition-all duration-300 group-hover:w-full" style={{ backgroundColor: stat.accent }} />
+        {/* Divider expanding on hover */}
+        <div
+          className="h-[2px] w-12 mb-3 transition-all duration-300 group-hover:w-full"
+          style={{ backgroundColor: stat.accent }}
+        />
 
-        <p className="font-mono text-nb-white/70 text-xs tracking-wide mb-1">{stat.sub}</p>
-        <p className="font-mono text-nb-white/35 text-[10px] tracking-widest">{stat.desc}</p>
+        <p className="font-mono text-nb-ink/70 text-xs tracking-wide mb-1">{stat.sub}</p>
+        <p className="font-mono text-nb-ink/40 text-[10px] tracking-widest">{stat.desc}</p>
       </div>
     </motion.div>
   );
@@ -96,18 +93,18 @@ function StatCard({ stat, index }: { stat: typeof STATS[0]; index: number }) {
 
 export function ImpactStats() {
   return (
-    <section id="impact" className="bg-nb-black py-0 overflow-hidden border-t-2 border-nb-white/10">
+    <section id="impact" className="bg-nb-surface py-0 overflow-hidden border-t-2 border-nb-forest/20">
       {/* Header */}
-      <div className="px-6 md:px-16 py-10 border-b-2 border-nb-white/10">
+      <div className="px-6 md:px-16 py-10 border-b-2 border-nb-forest/20 bg-nb-bg">
         <div className="max-w-7xl mx-auto flex items-end justify-between gap-4 flex-wrap">
           <div>
-            <p className="font-mono text-nb-yellow text-xs tracking-widest mb-2">// THE NUMBERS</p>
-            <h2 className="font-display text-5xl md:text-7xl text-nb-white tracking-wider">
+            <p className="font-mono text-nb-forest text-xs tracking-widest mb-2">// THE NUMBERS</p>
+            <h2 className="font-display text-5xl md:text-7xl text-nb-ink tracking-wider">
               BRUTAL<br />FACTS
             </h2>
           </div>
-          <p className="font-mono text-nb-white/40 text-sm max-w-xs leading-relaxed">
-            Data doesn&apos;t lie. These figures come directly from IPCC assessments and NASA measurements.
+          <p className="font-mono text-nb-ink/50 text-sm max-w-xs leading-relaxed">
+            Data from IPCC assessments and NASA. These figures are not opinions — they are measurements.
           </p>
         </div>
       </div>
@@ -120,21 +117,21 @@ export function ImpactStats() {
           ))}
         </div>
 
-        {/* Wide callout */}
+        {/* Consensus callout */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
-          className="mt-6 p-8 bg-nb-yellow nb-border nb-shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+          className="mt-6 p-8 bg-nb-forest nb-border nb-shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
         >
           <div>
-            <p className="font-mono text-[10px] tracking-widest text-nb-black/60 mb-1">SCIENTIFIC CONSENSUS</p>
-            <p className="font-display text-3xl md:text-4xl text-nb-black tracking-wider">
+            <p className="font-mono text-[10px] tracking-widest text-nb-surface/60 mb-1">SCIENTIFIC CONSENSUS</p>
+            <p className="font-display text-3xl md:text-4xl text-nb-surface tracking-wider">
               97% OF CLIMATE SCIENTISTS AGREE: IT IS REAL.
             </p>
           </div>
-          <div className="font-display text-8xl text-nb-black/20 flex-shrink-0">97%</div>
+          <div className="font-display text-8xl text-nb-surface/15 flex-shrink-0">97%</div>
         </motion.div>
       </div>
     </section>

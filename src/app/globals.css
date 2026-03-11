@@ -1,54 +1,60 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap');
 @import "tailwindcss";
 
-/* ─── NEO-BRUTALISM DESIGN TOKENS ─────────────────────────────── */
+/* ─── CLIMATE NEO-BRUTALISM: LIGHT MODE ───────────────────────── */
 @theme {
-  /* Core Palette */
-  --color-nb-black: #0a0a0a;
-  --color-nb-white: #f5f0e8;
-  --color-nb-yellow: #FFE000;
-  --color-nb-lime: #BEFF00;
-  --color-nb-red: #FF2D2D;
-  --color-nb-orange: #FF6B00;
-  --color-nb-blue: #0028FF;
-  --color-nb-pink: #FF3DFF;
-  --color-nb-cyan: #00FFEE;
-  --color-nb-green: #00CC44;
+  /* ── Background & Surface */
+  --color-nb-bg:       #F4F1E8;   /* warm parchment cream         */
+  --color-nb-surface:  #FAFAF5;   /* near-white, paper tone       */
+  --color-nb-ink:      #1A2E1A;   /* deep forest green (text)     */
+
+  /* ── Primary Nature Palette */
+  --color-nb-forest:   #2D6A4F;   /* rich forest green            */
+  --color-nb-leaf:     #40916C;   /* mid leaf green               */
+  --color-nb-mint:     #D8F3DC;   /* soft mint (subtle bg fills)  */
+  --color-nb-sage:     #95D5B2;   /* muted sage green             */
+
+  /* ── Water & Sky */
+  --color-nb-ocean:    #1B4965;   /* deep ocean blue              */
+  --color-nb-sky:      #48CAE4;   /* bright sky blue              */
+  --color-nb-mist:     #ADE8F4;   /* pale sky mist                */
+
+  /* ── Earth & Sun */
+  --color-nb-amber:    #F4A261;   /* warm amber / sunlight        */
+  --color-nb-sun:      #F9C74F;   /* golden yellow                */
+  --color-nb-earth:    #774936;   /* terracotta earth             */
+  --color-nb-sand:     #E9C46A;   /* dry sand                     */
+
+  /* ── Alerts */
+  --color-nb-red:      #E63946;   /* crisis red                   */
+  --color-nb-lime:     #AACC00;   /* electric lime                */
 
   /* Typography */
   --font-display: 'Bebas Neue', sans-serif;
-  --font-sans: 'Space Grotesk', sans-serif;
-  --font-mono: 'Space Mono', monospace;
+  --font-sans:    'Space Grotesk', sans-serif;
+  --font-mono:    'Space Mono', monospace;
 }
 
 /* ─── BASE ─────────────────────────────────────────────────────── */
 @layer base {
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
+  *, *::before, *::after { box-sizing: border-box; }
 
-  html {
-    scroll-behavior: smooth;
-    background-color: #0a0a0a;
-  }
+  html { scroll-behavior: smooth; background-color: #F4F1E8; }
 
   body {
     font-family: 'Space Grotesk', sans-serif;
-    background-color: #0a0a0a;
-    color: #f5f0e8;
+    background-color: #F4F1E8;
+    color: #1A2E1A;
     overflow-x: hidden;
     cursor: crosshair;
   }
 
-  ::selection {
-    background: #FFE000;
-    color: #0a0a0a;
-  }
+  ::selection { background: #F9C74F; color: #1A2E1A; }
 
   ::-webkit-scrollbar { width: 10px; }
-  ::-webkit-scrollbar-track { background: #0a0a0a; border-left: 2px solid #FFE000; }
-  ::-webkit-scrollbar-thumb { background: #FFE000; }
-  ::-webkit-scrollbar-thumb:hover { background: #BEFF00; }
+  ::-webkit-scrollbar-track { background: #F4F1E8; border-left: 2px solid #2D6A4F; }
+  ::-webkit-scrollbar-thumb { background: #2D6A4F; }
+  ::-webkit-scrollbar-thumb:hover { background: #1B4965; }
 
   h1, h2, h3 {
     font-family: 'Bebas Neue', sans-serif;
@@ -56,56 +62,36 @@
   }
 }
 
-/* ─── NEO-BRUTALISM UTILITIES ──────────────────────────────────── */
+/* ─── NEO-BRUTALISM UTILITIES (light climate theme) ───────────── */
 @layer utilities {
-  /* Hard Black Shadow - Brutalist signature */
-  .nb-shadow {
-    box-shadow: 4px 4px 0px #0a0a0a;
-  }
-  .nb-shadow-lg {
-    box-shadow: 6px 6px 0px #0a0a0a;
-  }
-  .nb-shadow-xl {
-    box-shadow: 8px 8px 0px #0a0a0a;
-  }
-  .nb-shadow-yellow {
-    box-shadow: 5px 5px 0px #FFE000;
-  }
-  .nb-shadow-lime {
-    box-shadow: 5px 5px 0px #BEFF00;
-  }
-  .nb-shadow-red {
-    box-shadow: 5px 5px 0px #FF2D2D;
-  }
-  .nb-shadow-blue {
-    box-shadow: 5px 5px 0px #0028FF;
-  }
+
+  /* Hard shadow — now using ink/forest instead of pure black */
+  .nb-shadow    { box-shadow: 4px 4px 0px #1A2E1A; }
+  .nb-shadow-lg { box-shadow: 6px 6px 0px #1A2E1A; }
+  .nb-shadow-xl { box-shadow: 8px 8px 0px #1A2E1A; }
+
+  /* Coloured hard shadows */
+  .nb-shadow-forest { box-shadow: 5px 5px 0px #2D6A4F; }
+  .nb-shadow-ocean  { box-shadow: 5px 5px 0px #1B4965; }
+  .nb-shadow-amber  { box-shadow: 5px 5px 0px #F4A261; }
+  .nb-shadow-sun    { box-shadow: 5px 5px 0px #F9C74F; }
+  .nb-shadow-red    { box-shadow: 5px 5px 0px #E63946; }
 
   /* Borders */
-  .nb-border {
-    border: 2px solid #0a0a0a;
-  }
-  .nb-border-white {
-    border: 2px solid #f5f0e8;
-  }
-  .nb-border-thick {
-    border: 3px solid #0a0a0a;
-  }
-  .nb-border-yellow {
-    border: 2px solid #FFE000;
-  }
+  .nb-border         { border: 2px solid #1A2E1A; }
+  .nb-border-forest  { border: 2px solid #2D6A4F; }
+  .nb-border-ocean   { border: 2px solid #1B4965; }
+  .nb-border-amber   { border: 2px solid #F4A261; }
+  .nb-border-light   { border: 2px solid rgba(26,46,26,0.18); }
+  .nb-border-thick   { border: 3px solid #1A2E1A; }
 
-  /* Hover lift effect */
+  /* Hover lift */
   .nb-hover {
     transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
   .nb-hover:hover {
     transform: translate(-3px, -3px);
-    box-shadow: 7px 7px 0px #0a0a0a;
-  }
-  .nb-hover-invert:hover {
-    transform: translate(3px, 3px);
-    box-shadow: 0px 0px 0px #0a0a0a;
+    box-shadow: 7px 7px 0px #1A2E1A;
   }
 
   /* Tag / Badge */
@@ -118,59 +104,32 @@
     border: 2px solid currentColor;
   }
 
-  /* Diagonal stripe background */
+  /* Subtle leaf-pattern stripe background */
   .nb-stripes {
     background-image: repeating-linear-gradient(
       -45deg,
       transparent,
       transparent 8px,
-      rgba(255, 224, 0, 0.06) 8px,
-      rgba(255, 224, 0, 0.06) 16px
+      rgba(64, 145, 108, 0.07) 8px,
+      rgba(64, 145, 108, 0.07) 16px
     );
   }
 
-  /* Grid dot pattern */
+  /* Dot grid */
   .nb-dots {
-    background-image: radial-gradient(circle, rgba(255,224,0,0.15) 1px, transparent 1px);
+    background-image: radial-gradient(circle, rgba(45,106,79,0.18) 1.5px, transparent 1.5px);
     background-size: 24px 24px;
   }
 
-  /* Noise texture overlay */
-  .nb-noise::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  /* Brutalist marquee */
+  /* Marquee animation */
   .nb-marquee-track {
     display: flex;
     gap: 0;
-    animation: marquee 20s linear infinite;
+    animation: marquee 22s linear infinite;
     will-change: transform;
   }
   @keyframes marquee {
     from { transform: translateX(0); }
     to   { transform: translateX(-50%); }
-  }
-
-  /* Glitch pulse */
-  @keyframes glitch {
-    0%   { clip-path: inset(40% 0 61% 0); transform: translate(2px, 0); }
-    20%  { clip-path: inset(92% 0 1% 0);  transform: translate(-2px, 0); }
-    40%  { clip-path: inset(43% 0 50% 0); transform: translate(2px, 0); }
-    60%  { clip-path: inset(25% 0 58% 0); transform: translate(-2px, 0); }
-    80%  { clip-path: inset(54% 0 7% 0);  transform: translate(0, 0); }
-    100% { clip-path: inset(58% 0 43% 0); transform: translate(2px, 0); }
-  }
-
-  .nb-cursor-none { cursor: none; }
-
-  /* Counter animation */
-  .counting {
-    font-variant-numeric: tabular-nums;
   }
 }
