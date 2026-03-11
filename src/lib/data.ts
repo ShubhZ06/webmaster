@@ -1,4 +1,4 @@
-import { Leaf, Droplets, ThermometerSun, Wind, Factory, Car, Zap, Recycle, TreePine, Flame, AlertTriangle, Activity } from 'lucide-react';
+import { Leaf, Droplets, ThermometerSun, Wind, Factory, Car, Zap, Recycle, TreePine, Activity, Trash2 } from 'lucide-react';
 
 export const navigationLinks = [
   { name: 'Home', href: '#home' },
@@ -68,7 +68,7 @@ export const climateCauses = [
   {
     id: 'cause-2',
     title: 'Deforestation',
-    description: 'Cutting down forests reduces nature\'s ability to absorb emissions.',
+    description: "Cutting down forests reduces nature's ability to absorb emissions.",
     icon: TreePine,
     image: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=80',
     color: 'bg-emerald-600'
@@ -92,7 +92,7 @@ export const climateCauses = [
   {
     id: 'cause-5',
     title: 'Energy Consumption',
-    description: 'High energy use in buildings and industry drives up demand for fossil fuels.',
+    description: 'High energy use in buildings and industry drives demand for fossil fuels.',
     icon: Zap,
     image: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80',
     color: 'bg-yellow-500'
@@ -106,9 +106,6 @@ export const climateCauses = [
     color: 'bg-stone-600'
   }
 ];
-
-// Re-export Trash2 which wasn't in the initial import list above to avoid syntax issues if it was missed
-import { Trash2 } from 'lucide-react';
 
 export const indiaImpacts = [
   {

@@ -2,16 +2,16 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Leaf } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 
 const navLinks = [
-  { href: '#home', label: 'Home' },
-  { href: '#about', label: 'The Crisis' },
-  { href: '#causes', label: 'Causes' },
-  { href: '#impact', label: 'Global Impact' },
-  { href: '#india', label: 'India' },
-  { href: '#solutions', label: 'Solutions' },
+  { href: '#home',      label: 'HOME'      },
+  { href: '#intro',     label: 'THE CRISIS' },
+  { href: '#causes',    label: 'CAUSES'    },
+  { href: '#impact',    label: 'IMPACT'    },
+  { href: '#india',     label: 'INDIA'     },
+  { href: '#solutions', label: 'SOLUTIONS' },
 ];
 
 export default function Navigation() {
@@ -21,157 +21,126 @@ export default function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Handle transparent to solid header
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
+      setIsScrolled(window.scrollY > 60);
+      const sections = navLinks.map(l => l.href.substring(1));
+      let current = sections[0];
+      for (const sec of sections) {
+        const el = document.getElementById(sec);
+        if (el && el.getBoundingClientRect().top <= 110) current = sec;
       }
-
-      // Handle scroll spy
-      const sections = navLinks.map(link => link.href.substring(1));
-      let currentSection = sections[0];
-
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          // Adjust this value based on your typical section heights and header height
-          if (rect.top <= 100) {
-            currentSection = section;
-          }
-        }
-      }
-      setActiveSection(currentSection);
+      setActiveSection(current);
     };
-
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+  const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setIsMobileMenuOpen(false);
-    
-    if (targetId === '#home') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-    }
-
-    const element = document.querySelector(targetId);
-    if (element) {
-      // Offset for fixed header
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+    if (href === '#home') { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+    const el = document.querySelector(href);
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: 'smooth' });
     }
   };
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/90 dark:bg-slate-950/90 backdrop-blur-md shadow-sm border-b border-slate-200 dark:border-slate-800 py-3' 
-          : 'bg-transparent py-5 dark:text-white'
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
+        isScrolled
+          ? 'bg-nb-black border-b-2 border-nb-yellow py-2'
+          : 'bg-transparent py-4'
       }`}
     >
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between">
-          <Link 
-            href="#home" 
-            onClick={(e) => scrollToSection(e, '#home')}
-            className={`flex items-center gap-2 font-bold text-xl tracking-tight transition-colors ${
-              isScrolled ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-800 dark:text-white'
-            }`}
-          >
-            <Leaf className={isScrolled ? 'text-emerald-600 dark:text-emerald-400' : 'text-emerald-500'} />
-            <span>Terra<span className="text-emerald-500 font-normal">Pulse</span></span>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1 bg-slate-100/50 dark:bg-slate-900/50 backdrop-blur rounded-full p-1 border border-slate-200/50 dark:border-slate-700/50">
-            {navLinks.map((link) => {
-              const isActive = activeSection === link.href.substring(1);
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={(e) => scrollToSection(e, link.href)}
-                  className={`relative px-4 py-2 text-sm font-medium rounded-full transition-colors ${
-                    isActive 
-                      ? 'text-white' 
-                      : isScrolled
-                         ? 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white'
-                         : 'text-slate-700 hover:text-slate-900 dark:text-slate-200 dark:hover:text-white'
-                  }`}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeNavIndicator"
-                      className="absolute inset-0 bg-emerald-600 dark:bg-emerald-500 rounded-full -z-10"
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    />
-                  )}
-                  {link.label}
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* Action Button */}
-          <div className="hidden md:block">
-            <button className={`px-5 py-2 rounded-full text-sm font-bold transition-all hover:scale-105 active:scale-95 ${
-              isScrolled 
-                ? 'bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100' 
-                : 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-lg shadow-emerald-600/20'
-            }`}>
-              Act Now
-            </button>
+      <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
+        {/* Logo */}
+        <Link
+          href="#home"
+          onClick={e => scrollTo(e, '#home')}
+          className="flex items-center gap-2 group"
+        >
+          <div className="w-8 h-8 bg-nb-yellow nb-border flex items-center justify-center font-mono font-bold text-nb-black text-sm nb-shadow group-hover:translate-x-[-2px] group-hover:translate-y-[-2px] transition-transform">
+            TP
           </div>
+          <span className="font-display text-2xl tracking-widest text-nb-white">
+            TERRA<span className="text-nb-yellow">PULSE</span>
+          </span>
+        </Link>
 
-          {/* Mobile Menu Toggle */}
-          <button 
-            className={`md:hidden p-2 rounded-md ${
-              isScrolled ? 'text-slate-800 dark:text-white' : 'text-slate-800 dark:text-white'
-            }`}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-1">
+          {navLinks.map(link => {
+            const isActive = activeSection === link.href.substring(1);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={e => scrollTo(e, link.href)}
+                className={`relative px-3 py-1.5 font-mono text-xs tracking-widest transition-all duration-150 ${
+                  isActive
+                    ? 'bg-nb-yellow text-nb-black'
+                    : 'text-nb-white hover:text-nb-yellow'
+                }`}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="nav-active"
+                    className="absolute inset-0 bg-nb-yellow -z-10"
+                    transition={{ type: 'spring', stiffness: 500, damping: 40 }}
+                  />
+                )}
+                {link.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* CTA */}
+        <button className="hidden md:block font-mono text-xs tracking-widest px-5 py-2 bg-nb-yellow text-nb-black nb-border nb-shadow nb-hover font-bold uppercase">
+          ACT NOW
+        </button>
+
+        {/* Mobile toggle */}
+        <button
+          className="md:hidden w-10 h-10 bg-nb-yellow text-nb-black nb-border nb-shadow flex items-center justify-center"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 overflow-hidden"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden overflow-hidden bg-nb-black border-t-2 border-nb-yellow"
           >
-            <nav className="flex flex-col p-4 space-y-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={(e) => scrollToSection(e, link.href)}
-                  className={`px-4 py-3 rounded-xl text-base font-medium transition-colors ${
-                    activeSection === link.href.substring(1)
-                      ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400'
-                      : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <button className="w-full mt-4 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-3 rounded-xl font-bold transition-colors">
-                Act Now
+            <nav className="flex flex-col p-4 gap-2">
+              {navLinks.map(link => {
+                const isActive = activeSection === link.href.substring(1);
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={e => scrollTo(e, link.href)}
+                    className={`px-4 py-3 font-mono text-sm tracking-widest border-l-4 transition-all ${
+                      isActive
+                        ? 'border-nb-yellow text-nb-yellow bg-nb-yellow/10'
+                        : 'border-transparent text-nb-white/70 hover:border-nb-yellow/50 hover:text-nb-white'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
+              <button className="mt-4 w-full py-3 bg-nb-yellow text-nb-black font-mono font-bold text-sm tracking-widest nb-border nb-shadow">
+                ACT NOW
               </button>
             </nav>
           </motion.div>

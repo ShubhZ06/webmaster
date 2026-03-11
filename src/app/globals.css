@@ -1,60 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap');
 @import "tailwindcss";
 
+/* ─── NEO-BRUTALISM DESIGN TOKENS ─────────────────────────────── */
 @theme {
-  --color-green-light: #e8f5e9;
-  --color-green-DEFAULT: #4caf50;
-  --color-green-dark: #2e7d32;
-  --color-blue-light: #e3f2fd;
-  --color-blue-DEFAULT: #2196f3;
-  --color-blue-dark: #1565c0;
-  --color-earth-light: #d7ccc8;
-  --color-earth-DEFAULT: #795548;
-  --color-earth-dark: #4e342e;
+  /* Core Palette */
+  --color-nb-black: #0a0a0a;
+  --color-nb-white: #f5f0e8;
+  --color-nb-yellow: #FFE000;
+  --color-nb-lime: #BEFF00;
+  --color-nb-red: #FF2D2D;
+  --color-nb-orange: #FF6B00;
+  --color-nb-blue: #0028FF;
+  --color-nb-pink: #FF3DFF;
+  --color-nb-cyan: #00FFEE;
+  --color-nb-green: #00CC44;
 
-  --color-background: #ffffff;
-  --color-surface: #f5f5f5;
-  --color-foreground: #1a1a1a;
-  
-  --font-sans: var(--font-inter);
+  /* Typography */
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-sans: 'Space Grotesk', sans-serif;
+  --font-mono: 'Space Mono', monospace;
 }
 
-@custom-variant dark (&:where(.dark, .dark *));
-
+/* ─── BASE ─────────────────────────────────────────────────────── */
 @layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
   html {
     scroll-behavior: smooth;
-  }
-  
-  body {
-    @apply bg-background text-foreground antialiased selection:bg-green-100 selection:text-green-900;
+    background-color: #0a0a0a;
   }
 
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: #0a0a0a;
+    color: #f5f0e8;
+    overflow-x: hidden;
+    cursor: crosshair;
   }
-  ::-webkit-scrollbar-track {
-    background: var(--color-background);
+
+  ::selection {
+    background: #FFE000;
+    color: #0a0a0a;
   }
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-green-DEFAULT);
-    border-radius: 4px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-green-dark);
+
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: #0a0a0a; border-left: 2px solid #FFE000; }
+  ::-webkit-scrollbar-thumb { background: #FFE000; }
+  ::-webkit-scrollbar-thumb:hover { background: #BEFF00; }
+
+  h1, h2, h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.02em;
   }
 }
 
+/* ─── NEO-BRUTALISM UTILITIES ──────────────────────────────────── */
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  /* Hard Black Shadow - Brutalist signature */
+  .nb-shadow {
+    box-shadow: 4px 4px 0px #0a0a0a;
   }
-  
-  .glass {
-    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-sm dark:bg-black/50 dark:border-white/10;
+  .nb-shadow-lg {
+    box-shadow: 6px 6px 0px #0a0a0a;
   }
-  
-  .container-custom {
-    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  .nb-shadow-xl {
+    box-shadow: 8px 8px 0px #0a0a0a;
+  }
+  .nb-shadow-yellow {
+    box-shadow: 5px 5px 0px #FFE000;
+  }
+  .nb-shadow-lime {
+    box-shadow: 5px 5px 0px #BEFF00;
+  }
+  .nb-shadow-red {
+    box-shadow: 5px 5px 0px #FF2D2D;
+  }
+  .nb-shadow-blue {
+    box-shadow: 5px 5px 0px #0028FF;
+  }
+
+  /* Borders */
+  .nb-border {
+    border: 2px solid #0a0a0a;
+  }
+  .nb-border-white {
+    border: 2px solid #f5f0e8;
+  }
+  .nb-border-thick {
+    border: 3px solid #0a0a0a;
+  }
+  .nb-border-yellow {
+    border: 2px solid #FFE000;
+  }
+
+  /* Hover lift effect */
+  .nb-hover {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .nb-hover:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 7px 7px 0px #0a0a0a;
+  }
+  .nb-hover-invert:hover {
+    transform: translate(3px, 3px);
+    box-shadow: 0px 0px 0px #0a0a0a;
+  }
+
+  /* Tag / Badge */
+  .nb-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border: 2px solid currentColor;
+  }
+
+  /* Diagonal stripe background */
+  .nb-stripes {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 8px,
+      rgba(255, 224, 0, 0.06) 8px,
+      rgba(255, 224, 0, 0.06) 16px
+    );
+  }
+
+  /* Grid dot pattern */
+  .nb-dots {
+    background-image: radial-gradient(circle, rgba(255,224,0,0.15) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Noise texture overlay */
+  .nb-noise::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Brutalist marquee */
+  .nb-marquee-track {
+    display: flex;
+    gap: 0;
+    animation: marquee 20s linear infinite;
+    will-change: transform;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* Glitch pulse */
+  @keyframes glitch {
+    0%   { clip-path: inset(40% 0 61% 0); transform: translate(2px, 0); }
+    20%  { clip-path: inset(92% 0 1% 0);  transform: translate(-2px, 0); }
+    40%  { clip-path: inset(43% 0 50% 0); transform: translate(2px, 0); }
+    60%  { clip-path: inset(25% 0 58% 0); transform: translate(-2px, 0); }
+    80%  { clip-path: inset(54% 0 7% 0);  transform: translate(0, 0); }
+    100% { clip-path: inset(58% 0 43% 0); transform: translate(2px, 0); }
+  }
+
+  .nb-cursor-none { cursor: none; }
+
+  /* Counter animation */
+  .counting {
+    font-variant-numeric: tabular-nums;
   }
 }

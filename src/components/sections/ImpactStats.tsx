@@ -1,92 +1,142 @@
-"use client";
+'use client';
 
-import { SectionWrapper } from "@/components/layout/SectionWrapper";
-import { StatCounter } from "@/components/ui/StatCounter";
-import { fadeUpVariant, staggerContainer } from "@/lib/animations";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, useInView } from 'framer-motion';
 
-export function ImpactStats() {
-  const stats = [
-    {
-      value: 1.1,
-      decimals: 1,
-      suffix: "°C",
-      title: "Global Temperature Rise",
-      description: "Increase since the pre-industrial era, driving extreme weather.",
-    },
-    {
-      value: 419,
-      decimals: 0,
-      suffix: " ppm",
-      title: "Carbon Dioxide Levels",
-      description: "Highest concentration in human history, as of recent measurements.",
-    },
-    {
-      value: 3.4,
-      decimals: 1,
-      suffix: " mm",
-      title: "Sea Level Rise per Year",
-      description: "Threatening coastal cities and ecosystems globally.",
-    },
-    {
-      value: 1000000,
-      decimals: 0,
-      suffix: "+",
-      title: "Species at Risk",
-      description: "Flora and fauna facing extinction due to habitat loss and climate change.",
-    },
-  ];
+function useCountUp(to: number, decimals: number, duration: number, active: boolean) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    let start: number | null = null;
+    const step = (ts: number) => {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / (duration * 1000), 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setVal(parseFloat((eased * to).toFixed(decimals)));
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [active, to, decimals, duration]);
+  return val;
+}
+
+const STATS = [
+  {
+    value: 1.1, decimals: 1, suffix: '°C', prefix: '+',
+    label: 'GLOBAL TEMP RISE',
+    sub: 'Since pre-industrial era',
+    accent: '#FF2D2D',
+    desc: 'Every fraction of a degree matters',
+  },
+  {
+    value: 421, decimals: 0, suffix: ' PPM', prefix: '',
+    label: 'CO₂ CONCENTRATION',
+    sub: 'Highest in 3 million years',
+    accent: '#FF6B00',
+    desc: 'Pre-industrial level was 280 ppm',
+  },
+  {
+    value: 3.4, decimals: 1, suffix: 'mm', prefix: '',
+    label: 'SEA LEVEL RISE/YR',
+    sub: 'Accelerating every decade',
+    accent: '#00FFEE',
+    desc: 'Threatening 600M coastal people',
+  },
+  {
+    value: 1, decimals: 0, suffix: 'M+', prefix: '',
+    label: 'SPECIES AT RISK',
+    sub: 'Per IPCC 6th Assessment',
+    accent: '#BEFF00',
+    desc: 'One million now face extinction',
+  },
+];
+
+function StatCard({ stat, index }: { stat: typeof STATS[0]; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const val = useCountUp(stat.value, stat.decimals, 2.5, inView);
 
   return (
-    <SectionWrapper
-      id="impact"
-      className="bg-earth-950 border-t border-earth-800"
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ delay: index * 0.12, duration: 0.5 }}
+      className="relative overflow-hidden group cursor-default nb-border"
+      style={{ borderColor: stat.accent, boxShadow: `0 0 0 0px ${stat.accent}`, transition: 'box-shadow 0.2s' }}
+      onMouseEnter={e => (e.currentTarget.style.boxShadow = `6px 6px 0px ${stat.accent}`)}
+      onMouseLeave={e => (e.currentTarget.style.boxShadow = `0 0 0 0px ${stat.accent}`)}
     >
-      <div className="max-w-4xl mx-auto text-center mb-16">
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-        >
-          <motion.h2 
-            variants={fadeUpVariant}
-            className="text-3xl md:text-5xl font-bold mb-6 text-earth-50"
-          >
-            The Numbers Tell the Story
-          </motion.h2>
-          <motion.p 
-            variants={fadeUpVariant}
-            className="text-lg text-earth-300 leading-relaxed"
-          >
-            The scientific consensus is clear. The data shows unprecedented changes to our Earth&apos;s climate system.
-          </motion.p>
-        </motion.div>
+      {/* Background tint */}
+      <div
+        className="absolute inset-0 opacity-[0.05] transition-opacity duration-300 group-hover:opacity-[0.12]"
+        style={{ backgroundColor: stat.accent }}
+      />
+
+      <div className="relative p-6 md:p-8">
+        {/* Label */}
+        <p className="font-mono text-[10px] tracking-widest text-nb-white/40 mb-4">{stat.label}</p>
+
+        {/* Big Number */}
+        <div className="font-display leading-none mb-3" style={{ color: stat.accent }}>
+          <span className="text-3xl">{stat.prefix}</span>
+          <span className="text-6xl md:text-7xl counting">{val.toFixed(stat.decimals)}</span>
+          <span className="text-3xl">{stat.suffix}</span>
+        </div>
+
+        {/* Divider */}
+        <div className="h-[2px] w-12 mb-3 transition-all duration-300 group-hover:w-full" style={{ backgroundColor: stat.accent }} />
+
+        <p className="font-mono text-nb-white/70 text-xs tracking-wide mb-1">{stat.sub}</p>
+        <p className="font-mono text-nb-white/35 text-[10px] tracking-widest">{stat.desc}</p>
+      </div>
+    </motion.div>
+  );
+}
+
+export function ImpactStats() {
+  return (
+    <section id="impact" className="bg-nb-black py-0 overflow-hidden border-t-2 border-nb-white/10">
+      {/* Header */}
+      <div className="px-6 md:px-16 py-10 border-b-2 border-nb-white/10">
+        <div className="max-w-7xl mx-auto flex items-end justify-between gap-4 flex-wrap">
+          <div>
+            <p className="font-mono text-nb-yellow text-xs tracking-widest mb-2">// THE NUMBERS</p>
+            <h2 className="font-display text-5xl md:text-7xl text-nb-white tracking-wider">
+              BRUTAL<br />FACTS
+            </h2>
+          </div>
+          <p className="font-mono text-nb-white/40 text-sm max-w-xs leading-relaxed">
+            Data doesn&apos;t lie. These figures come directly from IPCC assessments and NASA measurements.
+          </p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {stats.map((stat, index) => (
-          <motion.div
-            key={stat.title}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, delay: index * 0.15 }}
-            className="text-center p-6 rounded-2xl bg-earth-900/30 border border-earth-800 hover:border-earth-700 transition-colors"
-          >
-            <div className="text-4xl md:text-5xl font-black text-leaf-400 mb-4 tracking-tighter">
-              <StatCounter
-                to={stat.value}
-                decimals={stat.decimals}
-                suffix={stat.suffix}
-                duration={2.5}
-              />
-            </div>
-            <h3 className="text-xl font-bold text-earth-100 mb-2">{stat.title}</h3>
-            <p className="text-earth-400 text-sm">{stat.description}</p>
-          </motion.div>
-        ))}
+      {/* Grid */}
+      <div className="max-w-7xl mx-auto px-6 md:px-16 py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {STATS.map((stat, i) => (
+            <StatCard key={stat.label} stat={stat} index={i} />
+          ))}
+        </div>
+
+        {/* Wide callout */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 }}
+          className="mt-6 p-8 bg-nb-yellow nb-border nb-shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+        >
+          <div>
+            <p className="font-mono text-[10px] tracking-widest text-nb-black/60 mb-1">SCIENTIFIC CONSENSUS</p>
+            <p className="font-display text-3xl md:text-4xl text-nb-black tracking-wider">
+              97% OF CLIMATE SCIENTISTS AGREE: IT IS REAL.
+            </p>
+          </div>
+          <div className="font-display text-8xl text-nb-black/20 flex-shrink-0">97%</div>
+        </motion.div>
       </div>
-    </SectionWrapper>
+    </section>
   );
 }

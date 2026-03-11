@@ -1,22 +1,11 @@
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
 
-const inter = Inter({ 
-  subsets: ["latin"],
-  variable: '--font-inter',
-});
-
-const outfit = Outfit({
-  subsets: ["latin"],
-  variable: '--font-outfit',
-});
-
 export const metadata: Metadata = {
   title: "TerraPulse | Climate Action & Awareness",
-  description: "An interactive, visually engaging representation of the global climate crisis, its causes, impacts, and solutions.",
+  description: "An interactive, brutally honest look at the global climate crisis — its causes, impacts, and solutions. No polish. Just truth.",
 };
 
 export default function RootLayout({
@@ -25,8 +14,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth antialiased">
-      <body className={`${inter.variable} ${outfit.variable} font-sans bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50`}>
+    <html lang="en" className="scroll-smooth">
+      <body className="bg-nb-black text-nb-white font-sans antialiased">
         <Navigation />
         <main>
           {children}
