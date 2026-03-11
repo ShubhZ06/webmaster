@@ -29,7 +29,7 @@ export default function IndiaImpactSection() {
             </h2>
           </div>
           <p className="font-mono text-white/50 text-sm max-w-xs leading-relaxed">
-            India is among the most climate-vulnerable nations. Click a region to explore.
+            1.4 billion people. Four climate flashpoints. Tap a region.
           </p>
         </div>
       </div>

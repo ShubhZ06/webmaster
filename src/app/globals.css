@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap');
 @import "tailwindcss";
 
 /* ─── CLIMATE NEO-BRUTALISM: LIGHT MODE ───────────────────────── */
@@ -30,9 +30,9 @@
   --color-nb-lime:     #AACC00;   /* electric lime                */
 
   /* Typography */
-  --font-display: 'Bebas Neue', sans-serif;
-  --font-sans:    'Space Grotesk', sans-serif;
-  --font-mono:    'Space Mono', monospace;
+  --font-display: 'Syne', sans-serif;
+  --font-sans:    'Outfit', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
 }
 
 /* ─── BASE ─────────────────────────────────────────────────────── */
@@ -42,7 +42,7 @@
   html { scroll-behavior: smooth; background-color: #F4F1E8; }
 
   body {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Outfit', sans-serif;
     background-color: #F4F1E8;
     color: #1A2E1A;
     overflow-x: hidden;
@@ -57,8 +57,17 @@
   ::-webkit-scrollbar-thumb:hover { background: #1B4965; }
 
   h1, h2, h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    letter-spacing: 0.02em;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  /* Syne display font looks best with tight tracking at large sizes */
+  .font-display {
+    font-family: 'Syne', sans-serif !important;
+    font-weight: 800;
+    letter-spacing: -0.01em !important;
   }
 }
 
@@ -96,7 +105,7 @@
 
   /* Tag / Badge */
   .nb-tag {
-    font-family: 'Space Mono', monospace;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.65rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;

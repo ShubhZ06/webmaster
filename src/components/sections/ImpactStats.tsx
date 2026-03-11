@@ -104,7 +104,7 @@ export function ImpactStats() {
             </h2>
           </div>
           <p className="font-mono text-nb-ink/50 text-sm max-w-xs leading-relaxed">
-            Data from IPCC assessments and NASA. These figures are not opinions — they are measurements.
+            Not projections. Not models. Measurements. Taken this year, from instruments on the ground and in orbit.
           </p>
         </div>
       </div>
@@ -128,7 +128,7 @@ export function ImpactStats() {
           <div>
             <p className="font-mono text-[10px] tracking-widest text-nb-surface/60 mb-1">SCIENTIFIC CONSENSUS</p>
             <p className="font-display text-3xl md:text-4xl text-nb-surface tracking-wider">
-              97% OF CLIMATE SCIENTISTS AGREE: IT IS REAL.
+              97% OF CLIMATE SCIENTISTS AGREE. THIS ISN&apos;T A DEBATE.
             </p>
           </div>
           <div className="font-display text-8xl text-nb-surface/15 flex-shrink-0">97%</div>

@@ -4,6 +4,7 @@ import CausesSection from "@/components/sections/CausesSection";
 import { ImpactStats } from "@/components/sections/ImpactStats";
 import IndiaImpactSection from "@/components/sections/IndiaImpactSection";
 import SolutionsSection from "@/components/sections/SolutionsSection";
+import CarbonCalculator from "@/components/sections/CarbonCalculator";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <CausesSection />
       <ImpactStats />
       <IndiaImpactSection />
+      <CarbonCalculator />
       <SolutionsSection />
     </div>
   );

@@ -8,28 +8,28 @@ const STORY_STEPS = [
   {
     id: 0, tag: 'CHAPTER 01', heading: 'THE GREENHOUSE TRAP',
     icon: ThermometerSun, accent: '#E63946', accentLight: '#FDECEA',
-    text: "Since the pre-industrial era, human activities have increased atmospheric CO₂ by over 50%. Greenhouse gases act like a blanket around Earth — every ton we emit thickens it. The planet has warmed 1.1°C and is accelerating.",
+    text: "We pumped 50% more CO₂ into the atmosphere since the Industrial Revolution. Those gases wrap around Earth like a thickening blanket — trapping heat that used to escape. 1.1°C warmer already. The curve isn't flattening.",
     stat: { value: '50%', label: 'CO₂ INCREASE SINCE 1750' },
     visual: '🌡️',
   },
   {
     id: 1, tag: 'CHAPTER 02', heading: 'THE CHAIN REACTION',
     icon: Wind, accent: '#F4A261', accentLight: '#FDF3EC',
-    text: "Warming doesn't just mean hotter days. It breaks the entire climate system: jet streams shift, monsoons fail, oceans acidify, permafrost thaws releasing more methane. One degree cascades into dozens of catastrophes.",
+    text: "One degree doesn't sound like much until you realise it rewires the entire weather system. Jet streams stall, monsoons misfire, oceans turn acid, permafrost crumbles and belches methane. One domino tips a thousand.",
     stat: { value: '5×', label: 'EXTREME EVENTS INCREASE' },
     visual: '🌪️',
   },
   {
     id: 2, tag: 'CHAPTER 03', heading: 'THE RISING TIDE',
     icon: Droplets, accent: '#1B4965', accentLight: '#E9F4FA',
-    text: "Sea levels rise at 3.4mm per year — faster than any point in recorded history. Thermal expansion + melting ice = existential risk for 600 million coastal people. Mumbai, Miami and Jakarta face permanent flooding by 2100.",
+    text: "Sea levels climb 3.4mm every year — faster than at any point in human history. Warm water expands; ice sheets collapse. Mumbai, Miami, Jakarta: 600 million people live in the flood zone. The water doesn't negotiate.",
     stat: { value: '600M', label: 'PEOPLE IN COASTAL RISK ZONES' },
     visual: '🌊',
   },
   {
     id: 3, tag: 'CHAPTER 04', heading: 'THE EXTINCTION WAVE',
     icon: MapPin, accent: '#2D6A4F', accentLight: '#E8F5EE',
-    text: "Climate change is triggering the sixth mass extinction. Over 1 million species face extinction this century. Habitat fragmentation, temperature shifts, and ocean acidification are collapsing food webs built over millions of years.",
+    text: "We're engineering the sixth mass extinction in real-time. A million species face oblivion this century — not from an asteroid, but from us. Ecosystems that took millions of years to build are unravelling in decades.",
     stat: { value: '1M+', label: 'SPECIES THREATENED NOW' },
     visual: '🐘',
   },
@@ -51,7 +51,7 @@ export function ClimateIntro() {
             </h2>
           </div>
           <p className="font-mono text-nb-ink/50 text-sm max-w-sm leading-relaxed">
-            Choose your chapter. Each reveals a different dimension of the emergency unfolding around us.
+            Four chapters. Four uncomfortable truths. Swipe through and decide for yourself.
           </p>
         </div>
       </div>

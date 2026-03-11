@@ -109,8 +109,8 @@ export function HeroSection() {
           transition={{ delay: 0.3 }}
           className="font-mono text-nb-ink/55 text-sm md:text-base max-w-xl mb-10 leading-relaxed"
         >
-          Global temperatures are rising. Ecosystems are collapsing.
-          But it&apos;s not too late. The truth is urgent — and so is the action.
+          We broke the thermostat. Fires rage, ice melts, seas swallow coastlines.
+          This isn&apos;t a drill — it&apos;s a deadline.
         </motion.p>
 
         {/* CTA Buttons */}

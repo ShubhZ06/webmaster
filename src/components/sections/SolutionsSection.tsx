@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useRef, useCallback } from 'react';
+import { motion, useMotionValue, useSpring, useTransform, TargetAndTransition } from 'framer-motion';
 import { solutions } from '@/lib/data';
 import { CheckCircle } from 'lucide-react';
 
@@ -14,6 +14,28 @@ const CHALLENGES = [
 
 const ACCENTS      = ['#2D6A4F', '#1B4965', '#40916C', '#F4A261'];
 const ACCENT_LIGHTS = ['#E8F5EE', '#E9F4FA', '#EBF9F3', '#FDF3EC'];
+
+function TiltCard({ children, className, style, onClick, whileHover }: { children: React.ReactNode; className?: string; style?: React.CSSProperties; onClick?: () => void; whileHover?: TargetAndTransition }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const rx = useSpring(useTransform(my, [-0.5, 0.5], [5, -5]), { stiffness: 180, damping: 18 });
+  const ry = useSpring(useTransform(mx, [-0.5, 0.5], [-5, 5]), { stiffness: 180, damping: 18 });
+  const handleMove = useCallback((e: React.MouseEvent) => {
+    const r = ref.current?.getBoundingClientRect();
+    if (!r) return;
+    mx.set((e.clientX - r.left) / r.width - 0.5);
+    my.set((e.clientY - r.top) / r.height - 0.5);
+  }, [mx, my]);
+  const handleLeave = useCallback(() => { mx.set(0); my.set(0); }, [mx, my]);
+  return (
+    <motion.div ref={ref} onMouseMove={handleMove} onMouseLeave={handleLeave} onClick={onClick}
+      style={{ ...style, rotateX: rx, rotateY: ry, transformPerspective: 700 }}
+      className={className} whileHover={whileHover}>
+      {children}
+    </motion.div>
+  );
+}
 
 export default function SolutionsSection() {
   const [selectedChallenge, setSelectedChallenge] = useState<string | null>(null);
@@ -33,7 +55,7 @@ export default function SolutionsSection() {
             </h2>
           </div>
           <p className="font-mono text-nb-surface/50 text-sm max-w-xs leading-relaxed">
-            Every action matters. Choose your starting point and build momentum.
+            No one can do everything. Everyone can do something. Pick yours.
           </p>
         </div>
       </div>
@@ -93,12 +115,8 @@ export default function SolutionsSection() {
               const isDone = completed.includes(solution.id);
 
               return (
-                <motion.div
+                <TiltCard
                   key={solution.id}
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
                   onClick={() => toggleComplete(solution.id)}
                   className="relative cursor-pointer group nb-border overflow-hidden bg-nb-surface"
                   style={{
@@ -132,7 +150,7 @@ export default function SolutionsSection() {
                       {isDone ? '✓ DONE' : solution.action.toUpperCase()}
                     </span>
                   </div>
-                </motion.div>
+                </TiltCard>
               );
             })}
           </div>

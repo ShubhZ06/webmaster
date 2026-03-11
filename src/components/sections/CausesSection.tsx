@@ -1,12 +1,34 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useRef, useCallback } from 'react';
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { climateCauses } from '@/lib/data';
 
 // Environmental accent palette per card
 const ACCENTS = ['#2D6A4F', '#1B4965', '#F4A261', '#40916C', '#E63946', '#774936'];
 const ACCENT_LIGHTS = ['#E8F5EE', '#E9F4FA', '#FDF3EC', '#EBF9F3', '#FDECEA', '#F7EDE9'];
+
+function TiltCard({ children, className, style, onClick }: { children: React.ReactNode; className?: string; style?: React.CSSProperties; onClick?: () => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const rx = useSpring(useTransform(my, [-0.5, 0.5], [6, -6]), { stiffness: 180, damping: 18 });
+  const ry = useSpring(useTransform(mx, [-0.5, 0.5], [-6, 6]), { stiffness: 180, damping: 18 });
+  const handleMove = useCallback((e: React.MouseEvent) => {
+    const r = ref.current?.getBoundingClientRect();
+    if (!r) return;
+    mx.set((e.clientX - r.left) / r.width - 0.5);
+    my.set((e.clientY - r.top) / r.height - 0.5);
+  }, [mx, my]);
+  const handleLeave = useCallback(() => { mx.set(0); my.set(0); }, [mx, my]);
+  return (
+    <motion.div ref={ref} onMouseMove={handleMove} onMouseLeave={handleLeave} onClick={onClick}
+      style={{ ...style, rotateX: rx, rotateY: ry, transformPerspective: 700 }}
+      className={className} whileHover={{ y: -3 }} layout>
+      {children}
+    </motion.div>
+  );
+}
 
 export default function CausesSection() {
   const [expanded, setExpanded] = useState<string | null>(null);
@@ -23,7 +45,7 @@ export default function CausesSection() {
             </h2>
           </div>
           <p className="font-mono text-nb-ink/50 text-sm max-w-xs leading-relaxed">
-            Human activities are the primary driver. Click any card to explore deeper.
+            Six industries. Trillions in profit. One overheating planet. Tap a card.
           </p>
         </div>
       </div>
@@ -38,16 +60,14 @@ export default function CausesSection() {
             const isExpanded = expanded === cause.id;
 
             return (
-              <motion.div
+              <TiltCard
                 key={cause.id}
-                layout
                 onClick={() => setExpanded(isExpanded ? null : cause.id)}
                 className="relative cursor-pointer overflow-hidden nb-border bg-nb-surface transition-all duration-200"
                 style={{
                   borderColor: isExpanded ? accent : 'rgba(26,46,26,0.18)',
                   boxShadow: isExpanded ? `6px 6px 0 ${accent}` : '4px 4px 0 rgba(26,46,26,0.15)',
                 }}
-                whileHover={{ y: -3 }}
               >
                 {/* Image */}
                 <div className="relative h-44 overflow-hidden">
@@ -114,9 +134,9 @@ export default function CausesSection() {
                           style={{ borderColor: accent + '40' }}
                         >
                           <p className="text-nb-ink/60 leading-relaxed">
-                            This cause significantly contributes to global greenhouse gas
-                            emissions. Addressing it requires systemic change at government,
-                            industry, and individual levels.
+                            This isn&apos;t abstract — it&apos;s baked into supply chains, subsidies,
+                            and daily habits. Changing it means rewriting the rules, not just
+                            swapping lightbulbs.
                           </p>
                           <div
                             className="inline-flex items-center gap-2 px-3 py-1.5 font-bold text-[10px] tracking-widest nb-border"
@@ -129,7 +149,7 @@ export default function CausesSection() {
                     )}
                   </AnimatePresence>
                 </div>
-              </motion.div>
+              </TiltCard>
             );
           })}
         </div>
