@@ -38,4 +38,10 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# build logs and error dumps
+build-errors.txt
+build*.log
+build*.txt
+typescript-errors*.txt
 next-env.d.ts
